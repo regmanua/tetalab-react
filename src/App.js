@@ -1,24 +1,86 @@
-import logo from './logo.svg';
 import './App.css';
+import Form from './components/Form';
+import Feedback from './components/Feedback';
+import { useEffect, useState } from 'react';
 
 function App() {
+
+  const API_URL = 'https://vn0ibo4ov0.execute-api.eu-central-1.amazonaws.com';
+  const [feedbackList, setFeedBackList] = useState([]);
+  const postsList = feedbackList.map(post => {
+    return (
+      <div>
+        <Feedback key={post.id} post={post} handleDelete={() => deletePost(post.id)}/>
+      </div>
+    )
+  })
+
+
+  const getAllPosts = async () => {
+    await fetch(`${API_URL}/posts`, {mode: 'cors'})
+      .then((response) => response.json())
+      .then(data => {
+        setFeedBackList(data.Items);
+        console.log(`feedbackList`, feedbackList);
+      })
+      .catch((err) => {
+         console.log(err.message);
+      });
+  };  
+
+  async function addPosts (formData) {
+    await fetch(`${API_URL}/posts`, {
+      method: 'PUT',
+      mode: 'cors',
+      //body: formData,
+      body: JSON.stringify({
+         user: formData.user,
+         feedback: formData.feedback,
+         rate: formData.rate,
+      }),
+      // headers: {
+      //     "Access-Control-Allow-Origin": "*",
+      //     'Content-type': 'application/json',
+      // },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        getAllPosts();
+        console.log(data);
+      })
+      .catch((err) => {
+         console.log(err.message);
+      });
+    //console.log('formData = ', formData);
+  };
+
+  async function deletePost(id) {
+    await fetch(`${API_URL}/posts/${id}`, {
+        method: 'DELETE',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        getAllPosts();
+      })
+      .catch((err) => {
+         console.log(err.message);
+      });
+  };
+
+  useEffect(() => {
+    getAllPosts();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className='container p-4'>
+      <header>
+        <div className='text-2xl font-medium py-4'>Feedback React Application</div>
       </header>
+      {postsList}
+      <Form handleAddPost={(formData) => addPosts(formData)}/>
     </div>
+
   );
 }
 
