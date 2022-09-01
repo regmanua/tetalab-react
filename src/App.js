@@ -1,6 +1,6 @@
 import './App.css';
-import Form from './components/Form';
-import Feedback from './components/Feedback';
+import Form from './Form';
+import Feedback from './Feedback';
 import { useEffect, useState } from 'react';
 
 function App() {
