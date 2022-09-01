@@ -7,9 +7,9 @@ export default function Form(props) {
   Modal.setAppElement('#root');
 
   const defaultFormValue = {
-    userName: '',
+    name: '',
     feedback: '',
-    rateNumber: 0,
+    rate: 0,
   }
 
   const [formData, setFormData] = useState(defaultFormValue);
@@ -81,18 +81,18 @@ export default function Form(props) {
               value={formData.feedback} />
             <input 
               type="text" 
-              name="userName" 
+              name="name" 
               id=""
               placeholder='Enter your name'
               onChange={handleChange}
-              value={formData.userName}
+              value={formData.name}
               className="w-6/12 mt-4" />
             <div className="mt-4">
               <label htmlFor='rateNumber'>Rate the post please from 1 to 5</label><br/>
               <select 
-                name="rateNumber" 
+                name="rate" 
                 id="rateNumber"
-                value={formData.rateNumber}
+                value={formData.rate}
                 onChange={handleChange}
                 className="w-6/12"
               >

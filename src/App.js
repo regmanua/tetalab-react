@@ -1,7 +1,7 @@
 import './App.css';
 import Form from './Form';
 import Feedback from './Feedback';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const API_URL = 'https://vn0ibo4ov0.execute-api.eu-central-1.amazonaws.com';
 
@@ -31,7 +31,7 @@ function App() {
       method: 'PUT',
       mode: 'cors',
       body: JSON.stringify({
-         user: formData.user,
+         name: formData.name,
          feedback: formData.feedback,
          rate: formData.rate,
       }),
