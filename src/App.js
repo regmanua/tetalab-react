@@ -16,7 +16,7 @@ function App() {
   })
 
 
-  const getAllPosts = async () => {
+  async function getAllPosts () {
     await fetch(`${API_URL}/posts`, {mode: 'cors'})
       .then((response) => response.json())
       .then(data => {
@@ -32,16 +32,11 @@ function App() {
     await fetch(`${API_URL}/posts`, {
       method: 'PUT',
       mode: 'cors',
-      //body: formData,
       body: JSON.stringify({
          user: formData.user,
          feedback: formData.feedback,
          rate: formData.rate,
       }),
-      // headers: {
-      //     "Access-Control-Allow-Origin": "*",
-      //     'Content-type': 'application/json',
-      // },
     })
       .then((response) => response.json())
       .then((data) => {
